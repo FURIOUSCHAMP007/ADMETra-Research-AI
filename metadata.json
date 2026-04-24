@@ -1,0 +1,6 @@
+{
+  "name": "ADMETra AI",
+  "description": "AI-Powered ADME-Toxicity Trajectory & Ranking System for drug discovery.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["Molecular Analysis", "ADME-Tox Prediction", "Chemical Reasoning", "Candidate Ranking"]
+}
