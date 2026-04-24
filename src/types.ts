@@ -24,6 +24,7 @@ export interface GeminiAnalysis {
   adme: GeminiADME;
   toxicity: string[];
   drug_likeness: string;
+  personalized_plan: PersonalizedPlan;
 }
 
 export interface TrajectoryScores {

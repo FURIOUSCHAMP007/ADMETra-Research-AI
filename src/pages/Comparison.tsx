@@ -15,7 +15,9 @@ export const Comparison = () => {
     }
   };
 
-  const selectedAnalyses = analyses.filter(a => selectedIds.includes(a.id));
+  const selectedAnalyses = analyses
+    .filter(a => selectedIds.includes(a.id))
+    .sort((a, b) => b.totalScore - a.totalScore);
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
@@ -29,9 +31,11 @@ export const Comparison = () => {
         </div>
       </div>
 
-      {/* Selection Tray */}
       <div className="bg-white border border-slate-100 rounded-[32px] p-6 shadow-sm flex gap-3 overflow-x-auto scrollbar-none">
-        {analyses.filter(a => a.status === 'completed').map(a => (
+        {analyses
+            .filter(a => a.status === 'completed')
+            .sort((a, b) => b.totalScore - a.totalScore)
+            .map(a => (
             <button 
                 key={a.id}
                 onClick={() => toggleSelect(a.id)}
@@ -114,17 +118,20 @@ export const Comparison = () => {
   );
 };
 
-const MetricRow = ({ label, value, max }: { label: string, value: number, max: number }) => (
-    <div className="space-y-2">
-        <div className="flex justify-between items-end">
-            <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest leading-none">{label}</span>
-            <span className="text-[10px] font-black text-black leading-none">{((value/max) * 100).toFixed(0)}%</span>
+const MetricRow = ({ label, value, max }: { label: string, value: number, max: number }) => {
+    const percentage = Math.min((value / max) * 100, 100);
+    return (
+        <div className="space-y-2">
+            <div className="flex justify-between items-end">
+                <span className="text-[10px] font-black text-slate-700 uppercase tracking-widest leading-none">{label}</span>
+                <span className="text-[10px] font-black text-black leading-none">{percentage.toFixed(0)}%</span>
+            </div>
+            <div className="h-2 bg-slate-100 border border-slate-200 rounded-full overflow-hidden">
+                <div className="h-full bg-blue-600 rounded-full transition-all duration-1000 ease-out" style={{ width: `${percentage}%` }} />
+            </div>
         </div>
-        <div className="h-2 bg-slate-100 border border-slate-200 rounded-full overflow-hidden">
-            <div className="h-full bg-blue-600 rounded-full transition-all duration-1000 ease-out" style={{ width: `${(value/max) * 100}%` }} />
-        </div>
-    </div>
-);
+    );
+};
 
 const StatusIcon = ({ active, color, dangerColor }: { active: boolean, color: string, dangerColor?: string }) => (
     <div className={cn(

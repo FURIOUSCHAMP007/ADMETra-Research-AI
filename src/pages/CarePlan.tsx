@@ -9,14 +9,30 @@ export const CarePlan = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in duration-500">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-3xl font-black text-slate-900 tracking-tight">Clinical Care Protocol</h2>
           <p className="text-slate-500 font-medium">Personalized patient-centric guidance for safe ADME monitoring.</p>
         </div>
+        {selectedMolecule && (
+          <div className="px-6 py-3 bg-slate-100 rounded-2xl border border-slate-200">
+             <div className="text-[10px] uppercase font-black text-slate-400 tracking-widest mb-1 leading-none">Selected Agent</div>
+             <div className="text-lg font-black text-slate-800 leading-none">{selectedMolecule.name}</div>
+          </div>
+        )}
       </div>
 
-      {selectedMolecule?.plan ? (
+      {selectedMolecule?.status === 'processing' ? (
+        <div className="py-32 text-center space-y-6 bg-white border border-slate-100 rounded-[40px] shadow-sm">
+            <div className="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center mx-auto animate-pulse">
+                <Microscope className="w-10 h-10 text-blue-600" />
+            </div>
+            <div>
+               <p className="text-slate-900 font-black text-xl tracking-tight uppercase">Decrypting Drug Blueprint</p>
+               <p className="text-sm text-slate-500 mt-1 max-w-sm mx-auto font-medium italic">Gemini-1.5 AI is currently mapping ADME pathways and safety monitoring protocols...</p>
+            </div>
+        </div>
+      ) : selectedMolecule?.plan ? (
         <div className="space-y-8">
             <div className="bg-white border border-slate-100 rounded-[40px] p-10 shadow-sm flex items-center gap-10">
                 <div className="w-24 h-24 rounded-3xl bg-blue-600 flex items-center justify-center text-white shrink-0 shadow-xl shadow-blue-600/30">

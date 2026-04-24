@@ -39,7 +39,7 @@ export const Visualization = () => {
           <p className="text-sm font-black text-slate-900 border-b border-slate-50 pb-2 mb-2">{d.name}</p>
           <div className="space-y-1">
             <p className="text-[10px] font-bold text-slate-500 uppercase flex justify-between gap-4">
-                Efficiency Index: <span className="text-blue-600">{(d.bioavailability * 50).toFixed(0)}/100</span>
+                Efficiency Index: <span className="text-blue-600">{Math.min(d.bioavailability * 50, 100).toFixed(0)}/100</span>
             </p>
             <p className="text-[10px] font-bold text-slate-500 uppercase flex justify-between gap-4">
                 Toxicity Risk: <span className={cn("font-black", d.toxicity > 1 ? "text-rose-600" : "text-emerald-600")}>{d.toxicity.toFixed(1)}/5.0</span>

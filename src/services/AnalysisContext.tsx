@@ -26,15 +26,23 @@ export const AnalysisProvider = ({ children }: { children: ReactNode }) => {
     
     try {
       rdkitFeatures = await getMolecularDescriptors(smiles);
-      const initialScores = computeTrajectoryScores(rdkitFeatures, { functional_groups: [], adme: { absorption: '', permeability: '', metabolism: '' }, toxicity: [], drug_likeness: 'Inconclusive' });
+      const initialScores = computeTrajectoryScores(rdkitFeatures, { functional_groups: [], adme: { absorption: '', permeability: '', metabolism: '' }, toxicity: [], drug_likeness: 'Inconclusive', personalized_plan: { use_case: 'Pending scan...', lifestyle: [], monitoring: [] } });
       const initialTotalScore = calculateTotalScore(initialScores);
+
+      const libraryMatch = drugsData.drugs.find(d => d.name === name || d.smiles === smiles);
+      const plan = libraryMatch?.personalized_plan;
 
       setAnalyses(current => current.map(a => a.id === id ? {
         ...a,
         rdkit: rdkitFeatures,
         scores: initialScores,
         totalScore: initialTotalScore,
-        status: deepScan ? 'processing' : 'completed'
+        status: deepScan ? 'processing' : 'completed',
+        plan: plan ? {
+          use_case: plan.use_case,
+          lifestyle: plan.lifestyle,
+          monitoring: plan.monitoring
+        } : undefined
       } : a));
 
       if (deepScan) {
@@ -63,7 +71,7 @@ export const AnalysisProvider = ({ children }: { children: ReactNode }) => {
       const explanation = await explainTotalScore(smiles, finalTotalScore, geminiAnalysis);
 
       const libraryMatch = drugsData.drugs.find(d => d.name === name || d.smiles === smiles);
-      const plan = libraryMatch?.personalized_plan;
+      const plan = libraryMatch?.personalized_plan || geminiAnalysis.personalized_plan;
 
       setAnalyses(current => current.map(a => a.id === id ? {
         ...a,
@@ -129,7 +137,7 @@ export const AnalysisProvider = ({ children }: { children: ReactNode }) => {
         name,
         status: 'pending' as const,
         rdkit: { mw: 0, logp: 0, tpsa: 0, h_donors: 0, h_acceptors: 0, rotatable_bonds: 0 },
-        gemini: { functional_groups: [], adme: { absorption: '', permeability: '', metabolism: '' }, toxicity: [], drug_likeness: 'Inconclusive' },
+        gemini: { functional_groups: [], adme: { absorption: '', permeability: '', metabolism: '' }, toxicity: [], drug_likeness: 'Inconclusive', personalized_plan: { use_case: 'Pending scan...', lifestyle: [], monitoring: [] } },
         scores: { absorption_score: 0, permeability_score: 0, toxicity_penalty: 0, drug_score: 0 },
         totalScore: 0,
       };
@@ -141,6 +149,11 @@ export const AnalysisProvider = ({ children }: { children: ReactNode }) => {
     const featuresList = await Promise.all(resolvedAnalyses.map(analysis => 
       processMolecule(analysis.id, analysis.smiles, analysis.name, false)
     ));
+
+    // Automatically select the first high-scoring candidate to populate the Care Plan
+    if (!selectedId && resolvedAnalyses.length > 0) {
+      setSelectedId(resolvedAnalyses[0].id);
+    }
 
     // Step 2: Background enrichment
     for (let i = 0; i < Math.min(resolvedAnalyses.length, 3); i++) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAnalysis } from '../services/AnalysisContext';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -13,12 +13,14 @@ import {
   CheckCircle2,
   Zap,
   Microscope,
-  Database
+  Database,
+  ArrowRight
 } from 'lucide-react';
 import { cn } from '../lib/utils';
 import drugsData from '../data/drugs.json';
 
 export const Analysis = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { analyses, selectedId, isProcessing, setSelectedId, handleAnalyze, clearAnalyses } = useAnalysis();
   const [input, setInput] = useState('');
@@ -159,11 +161,11 @@ export const Analysis = () => {
                   <div className="grid-stats">
                     <div className="grid-stat-item">
                       <span className="grid-stat-label">Bioavailability</span>
-                      <span className="grid-stat-value">{( (selectedMolecule.scores.absorption_score + selectedMolecule.scores.permeability_score) / 4 * 100).toFixed(0)}%</span>
+                      <span className="grid-stat-value">{Math.min((selectedMolecule.scores.absorption_score + selectedMolecule.scores.permeability_score) / 4 * 100, 100).toFixed(0)}%</span>
                     </div>
                     <div className="grid-stat-item">
                       <span className="grid-stat-label">Drug Score</span>
-                      <span className="grid-stat-value">{(selectedMolecule.scores.drug_score / 2 * 100).toFixed(0)}%</span>
+                      <span className="grid-stat-value">{Math.min(selectedMolecule.scores.drug_score / 2 * 100, 100).toFixed(0)}%</span>
                     </div>
                     <div className="grid-stat-item">
                       <span className="grid-stat-label">Lipinski</span>
@@ -199,6 +201,22 @@ export const Analysis = () => {
                       {selectedMolecule.explanation || '*Inference engine generating analysis report...*'}
                    </ReactMarkdown>
                 </div>
+
+                {selectedMolecule.plan && (
+                  <button 
+                    onClick={() => navigate('/care-plan')}
+                    className="w-full flex items-center justify-between p-6 bg-blue-600 hover:bg-blue-700 text-white rounded-[24px] shadow-lg shadow-blue-600/20 transition-all group mt-8"
+                  >
+                    <div className="flex items-center gap-4">
+                        <CheckCircle2 className="w-6 h-6 text-blue-200" />
+                        <div className="text-left">
+                            <div className="font-black text-sm uppercase tracking-tight">Clinical Protocol Available</div>
+                            <div className="text-[10px] font-bold text-blue-100 opacity-80">View Personalized Care Plan</div>
+                        </div>
+                    </div>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                )}
              </div>
            </>
           )}

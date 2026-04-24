@@ -54,9 +54,26 @@ export async function analyzeMolecule(smiles: string): Promise<GeminiAnalysis> {
             drug_likeness: {
               type: Type.STRING,
               description: "Overall assessment of drug-likeness (e.g., 'Good', 'Moderate', 'Poor')"
+            },
+            personalized_plan: {
+              type: Type.OBJECT,
+              properties: {
+                use_case: { type: Type.STRING, description: "Primary medical use or targeted therapeutic application" },
+                lifestyle: { 
+                  type: Type.ARRAY, 
+                  items: { type: Type.STRING },
+                  description: "Lifestyle adjustments, dietary restrictions, or interaction warnings"
+                },
+                monitoring: { 
+                  type: Type.ARRAY, 
+                  items: { type: Type.STRING },
+                  description: "Key physiological parameters or biomarkers to monitor"
+                }
+              },
+              required: ["use_case", "lifestyle", "monitoring"]
             }
           },
-          required: ["functional_groups", "adme", "toxicity", "drug_likeness"]
+          required: ["functional_groups", "adme", "toxicity", "drug_likeness", "personalized_plan"]
         }
       }
     });
