@@ -155,7 +155,7 @@ Optimal drugs = not dominated by others
 
 ## 📊 Output Metrics
 
-- Physical Score → ADME quality  
+- Physics Score → ADME quality  
 - Safety Index → Toxicity level  
 - Final Rank → Priority  
 
