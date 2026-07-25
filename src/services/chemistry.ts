@@ -31,10 +31,15 @@ export async function getRDKit(): Promise<RDKitModule> {
 
 export async function getMolecularDescriptors(smiles: string): Promise<RDkitFeatures> {
   const RDKit = await getRDKit();
-  const mol = RDKit.get_mol(smiles);
+  const cleanSmiles = (smiles || "").trim().replace(/^["']|["']$/g, '');
+  let mol = RDKit.get_mol(cleanSmiles);
+
+  if (!mol && cleanSmiles !== smiles) {
+    mol = RDKit.get_mol(smiles);
+  }
   
   if (!mol) {
-    throw new Error("Invalid SMILES string");
+    throw new Error(`Invalid SMILES syntax: "${smiles}"`);
   }
 
   let descriptors: any = {};

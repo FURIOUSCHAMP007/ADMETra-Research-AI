@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAnalysis } from '../services/AnalysisContext';
+import { validateSmilesStructure } from '../utils/smilesValidator';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { 
@@ -14,8 +15,11 @@ import {
   Zap,
   Microscope,
   Database,
-  ArrowRight
+  ArrowRight,
+  AlertTriangle,
+  Check
 } from 'lucide-react';
+import { MolecularVisualizer } from '../components/MolecularVisualizer';
 import { cn } from '../lib/utils';
 import drugsData from '../data/drugs.json';
 
@@ -25,6 +29,10 @@ export const Analysis = () => {
   const { analyses, selectedId, isProcessing, setSelectedId, handleAnalyze, clearAnalyses } = useAnalysis();
   const [input, setInput] = useState('');
   const [librarySearch, setLibrarySearch] = useState('');
+  const [isVisualizerVisible, setIsVisualizerVisible] = useState(false);
+
+  const validation = useMemo(() => validateSmilesStructure(input), [input]);
+  const hasInput = input.trim().length > 0;
 
   useEffect(() => {
     if (location.state?.smiles) {
@@ -44,26 +52,126 @@ export const Analysis = () => {
       {/* Left: Input & Lab */}
       <div className="flex flex-col gap-6 min-h-0">
         <section className="bg-white border border-slate-200 rounded-[32px] p-8 shadow-sm shrink-0">
-            <h3 className="text-xl font-black text-black mb-6 flex items-center gap-2">
-                <Microscope className="w-5 h-5 text-blue-700" />
-                Analysis Terminal
-            </h3>
+            <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-black text-black flex items-center gap-2">
+                    <Microscope className="w-5 h-5 text-blue-700" />
+                    Analysis Terminal
+                </h3>
+                {hasInput && (
+                  <span className={cn(
+                    "px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 border",
+                    validation.isDrugName
+                      ? "bg-blue-50 text-blue-700 border-blue-200"
+                      : validation.isValid
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                        : "bg-rose-50 text-rose-700 border-rose-200"
+                  )}>
+                    {validation.isDrugName ? (
+                      <><CheckCircle2 className="w-3.5 h-3.5" /> Resolved Compound</>
+                    ) : validation.isValid ? (
+                      <><CheckCircle2 className="w-3.5 h-3.5" /> SMILES Structure Valid</>
+                    ) : (
+                      <><AlertTriangle className="w-3.5 h-3.5" /> SMILES Structural Error</>
+                    )}
+                  </span>
+                )}
+            </div>
+
             <div className="flex gap-4">
                 <textarea 
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    placeholder="Enter SMILES or Compound Name (e.g. Paracetamol)..."
-                    className="flex-1 p-4 bg-slate-50 border border-slate-200 rounded-2xl text-xs font-mono focus:ring-4 focus:ring-blue-100 placeholder:text-slate-500 outline-none h-24 ring-inset transition-all font-bold text-black"
+                    placeholder="Enter SMILES or Compound Name (e.g. Paracetamol or CC(=O)NC1=CC=C(O)C=C1)..."
+                    className={cn(
+                      "flex-1 p-4 bg-slate-50 border rounded-2xl text-xs font-mono focus:ring-4 placeholder:text-slate-500 outline-none h-24 ring-inset transition-all font-bold text-black",
+                      hasInput && !validation.isValid && !validation.isDrugName
+                        ? "border-rose-300 focus:ring-rose-100 bg-rose-50/20"
+                        : "border-slate-200 focus:ring-blue-100"
+                    )}
                 />
                 <button 
                     onClick={() => { handleAnalyze(input); setInput(''); }}
-                    disabled={isProcessing || !input.trim()}
-                    className="w-48 bg-slate-900 hover:bg-black disabled:bg-slate-200 text-white rounded-2xl font-black flex flex-col items-center justify-center gap-2 transition-all active:scale-95 shadow-xl shadow-slate-900/10"
+                    disabled={isProcessing || !input.trim() || (!validation.isValid && !validation.isDrugName)}
+                    className="w-48 bg-slate-900 hover:bg-black disabled:bg-slate-200 disabled:cursor-not-allowed text-white rounded-2xl font-black flex flex-col items-center justify-center gap-2 transition-all active:scale-95 shadow-xl shadow-slate-900/10"
                 >
                     {isProcessing ? <Loader2 className="w-6 h-6 animate-spin" /> : <Zap className="w-6 h-6 text-blue-300" />}
                     <span className="text-[10px] uppercase tracking-widest leading-none">Execute Analysis</span>
                 </button>
             </div>
+
+            {/* Validation Feedback & Structural Check Chips */}
+            {hasInput && (
+              <div className="mt-4 pt-4 border-t border-slate-100 space-y-2.5">
+                {validation.isDrugName && (
+                  <div className="text-xs text-blue-900 bg-blue-50/80 p-3 rounded-xl border border-blue-100 flex items-center justify-between">
+                    <div>
+                      <span className="font-bold text-blue-700">Resolved Compound:</span>{' '}
+                      <span className="font-black">{validation.resolvedName}</span>
+                    </div>
+                    <code className="text-[10px] font-mono bg-blue-100 text-blue-800 px-2 py-0.5 rounded">
+                      {validation.resolvedSmiles}
+                    </code>
+                  </div>
+                )}
+
+                {!validation.isDrugName && (
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono font-bold">
+                      <span className="text-slate-500 uppercase font-sans text-[9px] font-black">Integrity Checklist:</span>
+                      
+                      <span className={cn("px-2 py-0.5 rounded-lg border flex items-center gap-1", 
+                        validation.structuralChecks.balancedParentheses ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-rose-50 text-rose-700 border-rose-200"
+                      )}>
+                        {validation.structuralChecks.balancedParentheses ? <Check className="w-2.5 h-2.5" /> : <AlertTriangle className="w-2.5 h-2.5" />}
+                        Branch ()
+                      </span>
+
+                      <span className={cn("px-2 py-0.5 rounded-lg border flex items-center gap-1", 
+                        validation.structuralChecks.balancedBrackets ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-rose-50 text-rose-700 border-rose-200"
+                      )}>
+                        {validation.structuralChecks.balancedBrackets ? <Check className="w-2.5 h-2.5" /> : <AlertTriangle className="w-2.5 h-2.5" />}
+                        Atom []
+                      </span>
+
+                      <span className={cn("px-2 py-0.5 rounded-lg border flex items-center gap-1", 
+                        validation.structuralChecks.ringClosureOk ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-rose-50 text-rose-700 border-rose-200"
+                      )}>
+                        {validation.structuralChecks.ringClosureOk ? <Check className="w-2.5 h-2.5" /> : <AlertTriangle className="w-2.5 h-2.5" />}
+                        Rings (1-9)
+                      </span>
+
+                      <span className={cn("px-2 py-0.5 rounded-lg border flex items-center gap-1", 
+                        validation.structuralChecks.hasAtoms ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-rose-50 text-rose-700 border-rose-200"
+                      )}>
+                        {validation.structuralChecks.hasAtoms ? <Check className="w-2.5 h-2.5" /> : <AlertTriangle className="w-2.5 h-2.5" />}
+                        Atom Symbols
+                      </span>
+
+                      <span className={cn("px-2 py-0.5 rounded-lg border flex items-center gap-1", 
+                        validation.structuralChecks.validBondsOk ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-rose-50 text-rose-700 border-rose-200"
+                      )}>
+                        {validation.structuralChecks.validBondsOk ? <Check className="w-2.5 h-2.5" /> : <AlertTriangle className="w-2.5 h-2.5" />}
+                        Bonds
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {!validation.isValid && validation.issues.length > 0 && (
+                  <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl space-y-1 text-xs text-rose-800">
+                    <div className="font-black flex items-center gap-1.5 text-rose-900">
+                      <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
+                      Structural Integrity Defects Detected:
+                    </div>
+                    <ul className="list-disc list-inside space-y-0.5 text-[11px] font-medium pl-1">
+                      {validation.issues.map((issue, idx) => (
+                        <li key={idx}>{issue.message}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
         </section>
 
         <section className="bg-white border border-slate-200 rounded-[32px] overflow-hidden shadow-sm flex-1 flex flex-col min-h-0">
@@ -156,6 +264,20 @@ export const Analysis = () => {
             </div>
 
             <div className="flex-1 overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-slate-100 space-y-10">
+                {/* 3D Visualizer */}
+                <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                        <h4 className="text-[10px] font-black text-slate-800 uppercase tracking-[0.2em]">3D Structure</h4>
+                        <button 
+                            onClick={() => setIsVisualizerVisible(!isVisualizerVisible)}
+                            className="text-[10px] font-bold text-blue-700 hover:text-blue-900 transition-colors"
+                        >
+                            {isVisualizerVisible ? 'Hide Visualizer' : 'Show Visualizer'}
+                        </button>
+                    </div>
+                    {isVisualizerVisible && <MolecularVisualizer smiles={selectedMolecule.smiles} />}
+                </div>
+
                 {/* Quick Stats Grid */}
                 {selectedMolecule.status === 'completed' && (
                   <div className="grid-stats">
