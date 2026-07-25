@@ -155,7 +155,7 @@ Optimal drugs = not dominated by others
 
 ## 📊 Output Metrics
 
-- Physics Score → ADME quality  
+- Physical Score → ADME quality  
 - Safety Index → Toxicity level  
 - Final Rank → Priority  
 
@@ -196,5 +196,3 @@ Optimal drugs = not dominated by others
 - Fork  
 - Improve models  
 - Add datasets  
----
-*Built with ❤️ in AI Studio*

@@ -45,7 +45,7 @@ export const Landing = () => {
           </div>
           <h3 className="text-2xl font-black text-black mb-4 tracking-tight">ADME Prediction</h3>
           <p className="text-slate-700 font-bold leading-relaxed">
-            Physics-based RDKit analysis for logP, TPSA, and Lipinski compliance verification across 50+ validated candidates.
+            Physics-based RDKit analysis for logP, TPSA, and Lipinski compliance verification across curated therapeutic candidates.
           </p>
         </div>
 

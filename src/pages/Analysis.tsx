@@ -172,11 +172,18 @@ export const Analysis = () => {
                       <span className="grid-stat-value text-blue-700">{selectedMolecule.rdkit.mw <= 500 ? 'PASS' : 'FAIL'}</span>
                     </div>
                     <div className="grid-stat-item">
-                      <span className="grid-stat-label">Tox Alerts</span>
+                      <span className="grid-stat-label">Tox Risks</span>
                       <span className={cn(
                         "grid-stat-value",
-                        selectedMolecule.scores.toxicity_penalty > 0 ? "text-rose-700" : "text-emerald-800"
+                        selectedMolecule.gemini.toxicity.length > 3 ? "text-rose-700" : "text-emerald-800"
                       )}>{selectedMolecule.gemini.toxicity.length}</span>
+                    </div>
+                    <div className="grid-stat-item">
+                      <span className="grid-stat-label">Struct Alerts</span>
+                      <span className={cn(
+                        "grid-stat-value",
+                        selectedMolecule.gemini.structural_alerts.length > 0 ? "text-rose-700" : "text-emerald-800"
+                      )}>{selectedMolecule.gemini.structural_alerts.length}</span>
                     </div>
                   </div>
                 )}

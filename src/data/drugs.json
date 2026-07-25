@@ -1,554 +1,370 @@
 {
   "drugs": [
     {
-      "name": "Aspirin",
-      "smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
-      "description": "Reduces pain, fever, inflammation",
+      "name": "Paracetamol (Acetaminophen)",
+      "smiles": "CC(=O)NC1=CC=C(O)C=C1",
+      "description": "Widely used analgesic and antipyretic; overdose may cause liver toxicity.",
       "personalized_plan": {
-        "use_case": "Pain, inflammation",
-        "lifestyle": ["Take after meals", "Avoid alcohol"],
-        "monitoring": ["Watch for stomach irritation"]
-      }
+        "use_case": "Pain relief, fever reduction",
+        "lifestyle": ["Maintain hydration", "Avoid excessive medication use", "Follow dosage limits", "Avoid alcohol"],
+        "monitoring": ["Liver function tests"],
+        "treatment": ["Standard titration: 500mg-1g q6h", "Max dose: 4g/day", "NAC intervention if hepatotoxicity detected"]
+      },
+      "physical_score": 8.5,
+      "safety_index": 8.5
     },
     {
       "name": "Ibuprofen",
       "smiles": "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O",
-      "description": "Common NSAID for pain relief",
+      "description": "NSAID used for pain, inflammation, and fever.",
       "personalized_plan": {
-        "use_case": "Pain relief",
-        "lifestyle": ["Take with food", "Stay hydrated"],
-        "monitoring": ["Monitor kidney function"]
-      }
+        "use_case": "Pain, inflammation",
+        "lifestyle": ["Take with food", "Avoid long-term overuse", "Balanced diet"],
+        "monitoring": ["Kidney function", "GI health"],
+        "treatment": ["Cyclic dosing: 200-400mg tid", "PPI co-administration for high-risk patients", "NSAID sparing strategies"]
+      },
+      "physical_score": 8.8,
+      "safety_index": 8.0
     },
     {
-      "name": "Paracetamol",
-      "smiles": "CC(=O)NC1=CC=C(O)C=C1",
-      "description": "Mild pain and fever reducer",
+      "name": "Aspirin (Acetylsalicylic acid)",
+      "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+      "description": "NSAID with anti-inflammatory and blood-thinning effects.",
       "personalized_plan": {
-        "use_case": "Fever and mild pain",
-        "lifestyle": ["Avoid alcohol", "Follow dosage"],
-        "monitoring": ["Check liver health"]
-      }
-    },
-    {
-      "name": "Diclofenac",
-      "smiles": "O=C(O)CC1=CC=C(Cl)C=C1NC2=CC=CC=C2Cl",
-      "description": "Strong anti-inflammatory drug",
-      "personalized_plan": {
-        "use_case": "Severe inflammation",
-        "lifestyle": ["Take after food"],
-        "monitoring": ["Watch for gastric issues"]
-      }
-    },
-    {
-      "name": "Naproxen",
-      "smiles": "CC(C)C1=CC=C(C=C1)C(O)=O",
-      "description": "Long-lasting pain reliever",
-      "personalized_plan": {
-        "use_case": "Long-term pain relief",
-        "lifestyle": ["Take with meals"],
-        "monitoring": ["Check stomach health"]
-      }
+        "use_case": "Pain, cardiovascular protection",
+        "lifestyle": ["Avoid high doses", "Consult before long-term use", "Avoid alcohol"],
+        "monitoring": ["Bleeding risk"],
+        "treatment": ["Fixed low-dose: 75-100mg daily", "Emergency reversal: Platelet transfusion", "GI protection protocol"]
+      },
+      "physical_score": 8.2,
+      "safety_index": 7.5
     },
     {
       "name": "Amoxicillin",
-      "smiles": "CC1(C)SCC(N1C(=O)O)C(=O)NCc2ccccc2",
-      "description": "Broad-spectrum antibiotic",
+      "smiles": "CC1(C(N2C(S1)C(C2=O)NC(=O)C(N)CC3=CC=CC=C3)C(=O)O)C",
+      "description": "Broad-spectrum antibiotic for bacterial infections.",
       "personalized_plan": {
-        "use_case": "Bacterial infection",
-        "lifestyle": ["Complete full course"],
-        "monitoring": ["Watch for allergy"]
-      }
+        "use_case": "Infections",
+        "lifestyle": ["Complete full course", "Avoid skipping doses"],
+        "monitoring": ["Allergic reactions"],
+        "treatment": ["Weight-based: 25-50mg/kg/day", "Antihistamine standby", "Microbiome support post-cycle"]
+      },
+      "physical_score": 8.6,
+      "safety_index": 9.0
     },
     {
-      "name": "Penicillin G",
-      "smiles": "CC1(C)SCC(N1C(=O)O)C(=O)NCc2ccccc2",
-      "description": "Treats bacterial infections",
+      "name": "Metronidazole",
+      "smiles": "CCN(CC)C1=NC(=O)N(C)N1",
+      "description": "Antibiotic and antiprotozoal drug.",
       "personalized_plan": {
-        "use_case": "Infection treatment",
-        "lifestyle": ["Maintain schedule"],
-        "monitoring": ["Check allergic reaction"]
-      }
+        "use_case": "Anaerobic infections",
+        "lifestyle": ["Avoid alcohol during use", "Hydration"],
+        "monitoring": ["Neurological symptoms"],
+        "treatment": ["Oral pulse: 400mg tid", "B-complex supplementation", "Avoid neuro-excitatory triggers"]
+      },
+      "physical_score": 8.3,
+      "safety_index": 8.5
     },
     {
-      "name": "Ciprofloxacin",
-      "smiles": "C1CC1N2C=C(C(=O)N(C2=O)C3=CC=CC=C3F)C(=O)O",
-      "description": "Treats urinary infections",
+      "name": "Ivermectin",
+      "smiles": "CC1CCC2C(C1)CCC3C2CCC4=CC(=O)OC4C3",
+      "description": "Antiparasitic medication.",
       "personalized_plan": {
-        "use_case": "UTI treatment",
-        "lifestyle": ["Avoid heavy exercise"],
-        "monitoring": ["Watch tendon pain"]
-      }
+        "use_case": "Parasitic infections",
+        "lifestyle": ["Use as prescribed", "Hygiene practices"],
+        "monitoring": ["Neurological effects"]
+      },
+      "physical_score": 8.0,
+      "safety_index": 8.0
     },
     {
-      "name": "Azithromycin",
-      "smiles": "CCOC(=O)C1=CC=CC=C1",
-      "description": "Used for respiratory infections",
+      "name": "Mebendazole",
+      "smiles": "COC1=CC=CC=C1C(=O)NC2=NC=NC3=CC=CC=C23",
+      "description": "Anthelmintic drug for worm infections.",
       "personalized_plan": {
-        "use_case": "Respiratory infection",
-        "lifestyle": ["Take regularly"],
-        "monitoring": ["Watch digestion"]
-      }
+        "use_case": "Parasitic worms",
+        "lifestyle": ["Follow course strictly", "Sanitation"],
+        "monitoring": ["Liver enzymes"]
+      },
+      "physical_score": 7.8,
+      "safety_index": 8.0
     },
     {
-      "name": "Doxycycline",
-      "smiles": "C1=CC=C2C(=C1)C(=O)C3=CC=CC=C3O2",
-      "description": "Broad-spectrum antibiotic",
+      "name": "Fluconazole",
+      "smiles": "FC(F)(F)C(CN1C=NC=N1)(CN2C=NC=N2)O",
+      "description": "Antifungal medication.",
       "personalized_plan": {
-        "use_case": "Broad infection",
-        "lifestyle": ["Avoid sun exposure"],
-        "monitoring": ["Check skin sensitivity"]
-      }
+        "use_case": "Fungal infections",
+        "lifestyle": ["Follow dosage schedule", "Hygiene"],
+        "monitoring": ["Liver function"]
+      },
+      "physical_score": 8.4,
+      "safety_index": 8.5
     },
     {
-      "name": "Atenolol",
-      "smiles": "CC(C)NCC(O)COC1=CC=CC=C1",
-      "description": "Treats high blood pressure",
+      "name": "Aciclovir",
+      "smiles": "NC1=NC=NC2=C1N=CN2COCCO",
+      "description": "Antiviral drug for herpes infections.",
       "personalized_plan": {
-        "use_case": "High BP",
-        "lifestyle": ["Reduce salt", "Exercise"],
-        "monitoring": ["Check heart rate"]
-      }
-    },
-    {
-      "name": "Metoprolol",
-      "smiles": "CC(C)NCC(O)COC1=CC=C(C=C1)O",
-      "description": "Beta-blocker for heart",
-      "personalized_plan": {
-        "use_case": "Heart conditions",
-        "lifestyle": ["Regular exercise"],
-        "monitoring": ["Monitor BP"]
-      }
-    },
-    {
-      "name": "Amlodipine",
-      "smiles": "CCOC(=O)C1=CN=C(C=C1)C2=CC=CC=C2Cl",
-      "description": "Controls blood pressure",
-      "personalized_plan": {
-        "use_case": "Hypertension",
-        "lifestyle": ["Low salt diet"],
-        "monitoring": ["Check swelling"]
-      }
-    },
-    {
-      "name": "Losartan",
-      "smiles": "CC1=CC=C(C=C1)C2=NC(=O)N(C=N2)C3=CC=CC=C3Cl",
-      "description": "Treats hypertension",
-      "personalized_plan": {
-        "use_case": "BP control",
-        "lifestyle": ["Healthy diet"],
-        "monitoring": ["Check kidney function"]
-      }
-    },
-    {
-      "name": "Warfarin",
-      "smiles": "CC(=O)CC(C1=CC=CC=C1)C2=CC=CC=C2O",
-      "description": "Blood thinner",
-      "personalized_plan": {
-        "use_case": "Blood thinning",
-        "lifestyle": ["Avoid injury"],
-        "monitoring": ["Check INR levels"]
-      }
-    },
-    {
-      "name": "Diazepam",
-      "smiles": "CN1C=NC2=C1C(=O)N(C3=CC=CC=C3Cl)C=C2",
-      "description": "Used for anxiety",
-      "personalized_plan": {
-        "use_case": "Anxiety",
-        "lifestyle": ["Avoid alcohol"],
-        "monitoring": ["Watch dependency"]
-      }
-    },
-    {
-      "name": "Fluoxetine",
-      "smiles": "CNCCC(O)C1=CC=CC=C1OC2=CC=CC=C2",
-      "description": "Antidepressant",
-      "personalized_plan": {
-        "use_case": "Depression",
-        "lifestyle": ["Sleep routine"],
-        "monitoring": ["Monitor mood"]
-      }
-    },
-    {
-      "name": "Sertraline",
-      "smiles": "ClC1=CC=CC=C1C(C2=CC=CC=C2)N",
-      "description": "Treats depression",
-      "personalized_plan": {
-        "use_case": "Depression",
-        "lifestyle": ["Balanced diet"],
-        "monitoring": ["Check mental health"]
-      }
-    },
-    {
-      "name": "Caffeine",
-      "smiles": "CN1C=NC2=C1C(=O)N(C)C(=O)N2C",
-      "description": "CNS stimulant",
-      "personalized_plan": {
-        "use_case": "Stimulant",
-        "lifestyle": ["Limit intake"],
-        "monitoring": ["Avoid insomnia"]
-      }
-    },
-    {
-      "name": "Morphine",
-      "smiles": "CN1[C@H]2CC[C@@H]1C[C@@H]3[C@H]2[C@H]4Cc5ccc(O)c6c5[C@@]34OCCN6",
-      "description": "Strong painkiller",
-      "personalized_plan": {
-        "use_case": "Severe pain",
-        "lifestyle": ["Use under supervision"],
-        "monitoring": ["Watch breathing"]
-      }
-    },
-    {
-      "name": "Metformin",
-      "smiles": "CN(C)C(=N)NC(=N)N",
-      "description": "Lowers blood sugar",
-      "personalized_plan": {
-        "use_case": "Diabetes",
-        "lifestyle": ["Exercise", "Low sugar diet"],
-        "monitoring": ["Check glucose"]
-      }
-    },
-    {
-      "name": "Glibenclamide",
-      "smiles": "CC1=CC=CC=C1S(=O)(=O)NC2=CC=CC=C2",
-      "description": "Stimulates insulin release",
-      "personalized_plan": {
-        "use_case": "Diabetes",
-        "lifestyle": ["Regular meals"],
-        "monitoring": ["Watch hypoglycemia"]
-      }
-    },
-    {
-      "name": "Pioglitazone",
-      "smiles": "CC1=CC=C(C=C1)C2=NC(=O)SCC2=O",
-      "description": "Improves insulin sensitivity",
-      "personalized_plan": {
-        "use_case": "Insulin sensitivity",
-        "lifestyle": ["Exercise"],
-        "monitoring": ["Check weight"]
-      }
-    },
-    {
-      "name": "Sitagliptin",
-      "smiles": "C1=CC=C(C=C1)C(CN2C=NC3=C2N=CN3)O",
-      "description": "DPP-4 inhibitor",
-      "personalized_plan": {
-        "use_case": "Blood sugar control",
-        "lifestyle": ["Healthy diet"],
-        "monitoring": ["Monitor glucose"]
-      }
-    },
-    {
-      "name": "Insulin Fragment",
-      "smiles": "CCC1=C(C)C=C2C(=C1)C=CC(=C2)C=O",
-      "description": "Controls glucose levels (Simulated structure)",
-      "personalized_plan": {
-        "use_case": "Glucose regulation",
-        "lifestyle": ["Regular meals"],
-        "monitoring": ["Frequent sugar checks"]
-      }
-    },
-    {
-      "name": "Methotrexate",
-      "smiles": "CN(C)C1=NC=NC2=C1N=CN2C3=CC=CC=C3",
-      "description": "Cancer chemotherapy",
-      "personalized_plan": {
-        "use_case": "Cancer treatment",
-        "lifestyle": ["Avoid alcohol"],
-        "monitoring": ["Blood tests"]
-      }
-    },
-    {
-      "name": "Cisplatin",
-      "smiles": "N.N.Cl[Pt]Cl",
-      "description": "Platinum-based anticancer",
-      "personalized_plan": {
-        "use_case": "Cancer therapy",
-        "lifestyle": ["Stay hydrated"],
+        "use_case": "Viral infections",
+        "lifestyle": ["Start early treatment", "Hydration"],
         "monitoring": ["Kidney function"]
-      }
+      },
+      "physical_score": 7.9,
+      "safety_index": 9.0
     },
     {
-      "name": "Doxorubicin",
-      "smiles": "CC1C(C(C(C(O1)OC2CC(CC3=C(C4=C(C(=C32)O)C(=O)C5=C(C4=O)C=CC=C5OC)O)(C(=O)CO)O)N)O)O",
-      "description": "Kills cancer cells",
+      "name": "Sumatriptan",
+      "smiles": "CN(C)CC1=CC=C2C(=C1)C=CC=N2",
+      "description": "Used for migraine treatment.",
       "personalized_plan": {
-        "use_case": "Cancer",
-        "lifestyle": ["Rest well"],
-        "monitoring": ["Heart monitoring"]
-      }
+        "use_case": "Migraine",
+        "lifestyle": ["Use at onset of migraine", "Avoid triggers"],
+        "monitoring": ["Cardiovascular response"]
+      },
+      "physical_score": 7.7,
+      "safety_index": 8.0
     },
     {
-      "name": "Imatinib",
-      "smiles": "CC1=CC=C(C=C1)NC2=NC=NC3=CC=CC=C23",
-      "description": "Targeted cancer therapy",
+      "name": "Propranolol",
+      "smiles": "CC(C)NCC(O)COC1=CC=CC=C1",
+      "description": "Beta-blocker for heart conditions.",
       "personalized_plan": {
-        "use_case": "Targeted cancer",
-        "lifestyle": ["Balanced diet"],
-        "monitoring": ["Blood tests"]
-      }
+        "use_case": "Hypertension, anxiety",
+        "lifestyle": ["Regular dosing", "Exercise"],
+        "monitoring": ["Heart rate"]
+      },
+      "physical_score": 8.2,
+      "safety_index": 9.0
     },
     {
-      "name": "Cyclophosphamide",
-      "smiles": "ClCCN(CCCl)P1(=O)NCCCO1",
-      "description": "Chemotherapy drug",
+      "name": "Benzodiazepines (Diazepam)",
+      "smiles": "CN1C(=O)CN=C(C2=CC=CC=C2Cl)C3=CC=CC=C3N1",
+      "description": "Sedative-hypnotic used for anxiety and seizures; risk of dependence.",
       "personalized_plan": {
-        "use_case": "Chemotherapy",
-        "lifestyle": ["Avoid infections"],
-        "monitoring": ["Immune levels"]
-      }
+        "use_case": "Anxiety, seizures",
+        "lifestyle": ["Use under supervision", "Avoid long-term use", "Avoid alcohol", "Regular sleep"],
+        "monitoring": ["Sedation level", "Dependence signs"]
+      },
+      "physical_score": 9.0,
+      "safety_index": 3.8
     },
     {
-      "name": "Cetirizine",
-      "smiles": "CCN1CCC(CC1)OC2=CC=CC=C2Cl",
-      "description": "Allergy relief",
+      "name": "Levetiracetam",
+      "smiles": "CC(=O)N1CCCC1C(=O)O",
+      "description": "Antiepileptic drug.",
       "personalized_plan": {
-        "use_case": "Allergy",
-        "lifestyle": ["Avoid allergens"],
-        "monitoring": ["Watch drowsiness"]
-      }
+        "use_case": "Seizures",
+        "lifestyle": ["Consistent dosing", "Regular sleep"],
+        "monitoring": ["Neurological status"]
+      },
+      "physical_score": 8.3,
+      "safety_index": 9.5
     },
     {
       "name": "Loratadine",
-      "smiles": "CCOC(=O)N1CCC(=C2C3=C(CCC2)C=C(C=C3)Cl)CC1",
-      "description": "Non-drowsy antihistamine",
+      "smiles": "CC1=CC=CC=C1N2CCC(CC2)OC3=CC=CC=C3",
+      "description": "Antihistamine for allergies.",
       "personalized_plan": {
-        "use_case": "Allergy",
-        "lifestyle": ["Stay hydrated"],
-        "monitoring": ["Check symptoms"]
-      }
-    },
-    {
-      "name": "Diphenhydramine",
-      "smiles": "CN(C)CCOC(C1=CC=CC=C1)C2=CC=CC=C2",
-      "description": "Allergy + sleep aid",
-      "personalized_plan": {
-        "use_case": "Allergy",
-        "lifestyle": ["Avoid driving"],
+        "use_case": "Allergies",
+        "lifestyle": ["Daily dose", "Avoid allergens"],
         "monitoring": ["Drowsiness"]
-      }
+      },
+      "physical_score": 8.1,
+      "safety_index": 9.0
     },
     {
-      "name": "Fexofenadine",
-      "smiles": "CC(C)(C(=O)O)C1=CC=C(C=C1)C(O)CCCN2CCC(CC2)C(O)(C3=CC=CC=C3)C4=CC=CC=C4",
-      "description": "Treats hay fever",
+      "name": "Prednisolone",
+      "smiles": "CC(=O)C1=CC(=O)C2(C)CCC3C2CCC4=CC(=O)C=C[C@]34C1",
+      "description": "Corticosteroid for inflammation.",
       "personalized_plan": {
-        "use_case": "Hay fever",
-        "lifestyle": ["Avoid triggers"],
-        "monitoring": ["Check symptoms"]
-      }
+        "use_case": "Inflammation",
+        "lifestyle": ["Taper dosage gradually", "Balanced diet"],
+        "monitoring": ["Blood sugar"]
+      },
+      "physical_score": 8.4,
+      "safety_index": 8.0
     },
     {
-      "name": "Chlorpheniramine",
-      "smiles": "CN(C)CCC(C1=CC=CC=C1)Cl",
-      "description": "Anti-allergy drug",
+      "name": "Activated Charcoal",
+      "smiles": "C",
+      "description": "Adsorbent used in poisoning cases.",
       "personalized_plan": {
-        "use_case": "Allergy",
-        "lifestyle": ["Avoid alcohol"],
-        "monitoring": ["Sleepiness"]
-      }
+        "use_case": "Toxin removal",
+        "lifestyle": ["Use under medical supervision", "Emergency use only"],
+        "monitoring": ["GI function"]
+      },
+      "physical_score": 6.0,
+      "safety_index": 9.8
     },
     {
-      "name": "Omeprazole",
-      "smiles": "COc1ccc2[nH]c(nc2c1)S(=O)Cc3ncccn3",
-      "description": "Reduces stomach acid",
+      "name": "Acetylcysteine",
+      "smiles": "CC(=O)NCCS",
+      "description": "Used as antidote for paracetamol overdose.",
       "personalized_plan": {
-        "use_case": "Acid reflux",
-        "lifestyle": ["Avoid spicy food"],
-        "monitoring": ["Long-term use"]
-      }
-    },
-    {
-      "name": "Ranitidine",
-      "smiles": "CN(C)C(=N)NCCSC(=N)NC",
-      "description": "Ulcer treatment",
-      "personalized_plan": {
-        "use_case": "Ulcer",
-        "lifestyle": ["Avoid heavy meals"],
-        "monitoring": ["Digestive health"]
-      }
-    },
-    {
-      "name": "Sildenafil",
-      "smiles": "CCN1C=C(C(=O)N(C1=O)C2=CC=CC=C2)C3=CC=CC=C3",
-      "description": "Treats ED",
-      "personalized_plan": {
-        "use_case": "ED",
-        "lifestyle": ["Exercise"],
-        "monitoring": ["Heart condition"]
-      }
-    },
-    {
-      "name": "Loperamide",
-      "smiles": "CN(C)CCOC(C1=CC=CC=C1)C2=CC=CC=C2",
-      "description": "Anti-diarrheal",
-      "personalized_plan": {
-        "use_case": "Diarrhea",
-        "lifestyle": ["Hydration"],
-        "monitoring": ["Digestive recovery"]
-      }
-    },
-    {
-      "name": "Salbutamol",
-      "smiles": "CC(C)(C)NC[C@H](O)C1=CC(O)=CC=C1",
-      "description": "Asthma inhaler",
-      "personalized_plan": {
-        "use_case": "Asthma",
-        "lifestyle": ["Avoid triggers"],
-        "monitoring": ["Breathing rate"]
-      }
-    },
-    {
-      "name": "Atorvastatin",
-      "smiles": "CC(C)C1=CC=C(C=C1)C(C(C(=O)O)N)O",
-      "description": "Lowers cholesterol (statin)",
-      "personalized_plan": {
-        "use_case": "Cholesterol",
-        "lifestyle": ["Low-fat diet"],
+        "use_case": "Detoxification",
+        "lifestyle": ["Administer early in overdose", "Medical supervision"],
         "monitoring": ["Liver function"]
-      }
+      },
+      "physical_score": 7.8,
+      "safety_index": 9.5
     },
     {
-      "name": "Simvastatin",
-      "smiles": "CCC(C)C1CCC2C3CCC4=CC(=O)CCC4(C)C3CCC12C",
-      "description": "Reduces cholesterol levels",
+      "name": "Alcohol (Ethanol)",
+      "smiles": "CCO",
+      "description": "CNS depressant; excessive consumption leads to addiction and organ damage.",
       "personalized_plan": {
-        "use_case": "Cholesterol",
-        "lifestyle": ["Exercise"],
-        "monitoring": ["Muscle pain"]
-      }
+        "use_case": "Social consumption",
+        "lifestyle": ["Moderate intake or abstain", "Balanced diet", "Hydration"],
+        "monitoring": ["Liver health", "Consumption patterns"]
+      },
+      "physical_score": 7.0,
+      "safety_index": 2.5
     },
     {
-      "name": "Clopidogrel",
-      "smiles": "COC(=O)C1=CC=CC=C1Cl",
-      "description": "Prevents blood clots",
+      "name": "Anticoagulants (Warfarin)",
+      "smiles": "CC(=O)CC(C1=CC=CC=C1)C(=O)C2=CC=CC=C2O",
+      "description": "Prevents blood clot formation; requires careful monitoring.",
       "personalized_plan": {
-        "use_case": "Blood clot prevention",
-        "lifestyle": ["Avoid injuries"],
-        "monitoring": ["Bleeding"]
-      }
+        "use_case": "Stroke prevention, clot disorders",
+        "lifestyle": ["Regular INR monitoring", "Avoid overdose", "Stable diet (vitamin K control)"],
+        "monitoring": ["INR levels", "Bleeding risk"]
+      },
+      "physical_score": 8.8,
+      "safety_index": 3.0
     },
     {
-      "name": "Pantoprazole",
-      "smiles": "COC1=CC2=C(N=C(N2)S(=O)CC3=NC=NC3)C=C1",
-      "description": "Reduces stomach acid",
+      "name": "Antidepressants (Fluoxetine)",
+      "smiles": "CNCCC(Oc1ccc(cc1)C(F)(F)F)c2ccccc2",
+      "description": "SSRI used for depression and anxiety disorders.",
       "personalized_plan": {
-        "use_case": "Acid control",
-        "lifestyle": ["Eat small meals"],
-        "monitoring": ["Stomach health"]
-      }
+        "use_case": "Depression, anxiety",
+        "lifestyle": ["Follow prescription", "Gradual dose changes", "Regular sleep", "Mental health support"],
+        "monitoring": ["Mood changes", "Side effects"]
+      },
+      "physical_score": 8.2,
+      "safety_index": 3.5
     },
     {
-      "name": "Esomeprazole",
-      "smiles": "COc1ccc2[nH]c(nc2c1)S(=O)Cc3ncccn3",
-      "description": "Treats acid reflux",
+      "name": "Antihypertensives (Amlodipine)",
+      "smiles": "CCOC(=O)C1=C(NC(=C(C1)C)C(=O)OCC)C2=CC=CC=C2Cl",
+      "description": "Calcium channel blocker used to lower blood pressure.",
       "personalized_plan": {
-        "use_case": "GERD",
-        "lifestyle": ["Avoid late meals"],
-        "monitoring": ["Acid levels"]
-      }
+        "use_case": "Hypertension",
+        "lifestyle": ["Daily adherence", "Monitor BP", "Low-salt diet", "Exercise"],
+        "monitoring": ["Blood pressure"]
+      },
+      "physical_score": 8.9,
+      "safety_index": 7.5
     },
     {
-      "name": "Ondansetron",
-      "smiles": "CC1=CC2=C(C=C1)N(C(=O)C2)CC3=CC=CC=C3",
-      "description": "Prevents nausea and vomiting",
+      "name": "Bromocriptine",
+      "smiles": "CC(C)N(CC1=CC=CC=C1)C2=CC=CC=C2",
+      "description": "Dopamine agonist used in Parkinson’s disease.",
       "personalized_plan": {
-        "use_case": "Nausea",
-        "lifestyle": ["Light meals"],
-        "monitoring": ["Hydration"]
-      }
+        "use_case": "Parkinson’s disease",
+        "lifestyle": ["Follow dosing carefully", "Balanced routine"],
+        "monitoring": ["Neurological response"]
+      },
+      "physical_score": 8.0,
+      "safety_index": 3.8
     },
     {
-      "name": "Tramadol",
-      "smiles": "CC(C)NCC(O)C1=CC(OC)=CC=C1",
-      "description": "Moderate pain relief",
+      "name": "Clarithromycin",
+      "smiles": "CC[C@H]1C[C@@H](C)[C@H](O)[C@@H](OC)[C@H](OC)C(=O)O1",
+      "description": "Macrolide antibiotic used for bacterial infections.",
       "personalized_plan": {
-        "use_case": "Pain",
-        "lifestyle": ["Avoid alcohol"],
-        "monitoring": ["Dependency risk"]
-      }
+        "use_case": "Bacterial infections",
+        "lifestyle": ["Complete full course", "Avoid alcohol during treatment"],
+        "monitoring": ["Liver function"]
+      },
+      "physical_score": 7.6,
+      "safety_index": 6.5
     },
     {
-      "name": "Codeine",
-      "smiles": "COC1=CC2=C3C(=O)CC4=CC(OC)=C(O)C=C4C3CCC2=C1",
-      "description": "Opioid pain medication",
+      "name": "Clozapine",
+      "smiles": "CN1CCN(CC1)C2=NC3=CC=CC=C3NC4=CC=CC=C42",
+      "description": "Antipsychotic for treatment-resistant schizophrenia.",
       "personalized_plan": {
-        "use_case": "Pain",
-        "lifestyle": ["Avoid alcohol"],
-        "monitoring": ["Respiratory effects"]
-      }
+        "use_case": "Schizophrenia",
+        "lifestyle": ["Strict medical supervision", "Routine health checks"],
+        "monitoring": ["Blood counts"]
+      },
+      "physical_score": 8.4,
+      "safety_index": 3.2
     },
     {
-      "name": "Hydrochlorothiazide",
-      "smiles": "NS(=O)(=O)C1=CC2=C(NC(NS2(=O)=O)=O)C=C1Cl",
-      "description": "Diuretic for blood pressure",
+      "name": "Cocaine",
+      "smiles": "CN1C2CCC1C(C2)OC(=O)C3=CC=CC=C3",
+      "description": "Powerful stimulant; high addiction and cardiovascular risk.",
       "personalized_plan": {
-        "use_case": "BP control",
-        "lifestyle": ["Hydration"],
-        "monitoring": ["Electrolytes"]
-      }
+        "use_case": "Limited medical anesthetic use",
+        "lifestyle": ["Avoid use", "Seek support if needed", "Rehabilitation support"],
+        "monitoring": ["Heart rate", "Mental health"]
+      },
+      "physical_score": 7.5,
+      "safety_index": 1.2
     },
     {
-      "name": "Levothyroxine",
-      "smiles": "C1=CC(=C(C=C1I)O)C(C(=O)O)N",
-      "description": "Thyroid hormone replacement",
+      "name": "Colchicine",
+      "smiles": "COC1=CC=CC=C1C(=O)NC2=NC=NC3=CC=CC=C23",
+      "description": "Used to treat gout; narrow therapeutic index.",
       "personalized_plan": {
-        "use_case": "Thyroid hormone",
-        "lifestyle": ["Take on empty stomach"],
-        "monitoring": ["Thyroid levels"]
-      }
+        "use_case": "Gout treatment",
+        "lifestyle": ["Strict dosing", "Low purine diet"],
+        "monitoring": ["Kidney function"]
+      },
+      "physical_score": 8.1,
+      "safety_index": 3.4
     },
     {
-      "name": "Fentanyl",
-      "smiles": "CCC(=O)N(c1ccccc1)C2CCN(CC2)CCc3ccccc3",
-      "description": "Potent synthetic opioid; significant respiratory depression hazard.",
+      "name": "Cough Medicines (Dextromethorphan)",
+      "smiles": "CN1CCC23C4=CC=CC=C4O[C@H]2C=C[C@H]3[C@H]1C",
+      "description": "Common cough suppressant.",
       "personalized_plan": {
-        "use_case": "Severe pain management",
-        "lifestyle": ["Strict medical adherence", "Avoid sedatives"],
-        "monitoring": ["Respiratory rate", "Sedation levels"]
-      }
+        "use_case": "Cough relief",
+        "lifestyle": ["Use recommended dose", "Stay hydrated"],
+        "monitoring": ["Respiratory response"]
+      },
+      "physical_score": 7.8,
+      "safety_index": 5.5
+    },
+    {
+      "name": "Digoxin",
+      "smiles": "CC1C(C(C(C(O1)OC2C(C(C(C(O2)CO)O)O)O)O)O)O",
+      "description": "Cardiac glycoside for heart failure.",
+      "personalized_plan": {
+        "use_case": "Heart failure",
+        "lifestyle": ["Strict dosing", "Regular monitoring"],
+        "monitoring": ["Blood levels", "ECG"]
+      },
+      "physical_score": 8.3,
+      "safety_index": 2.8
     },
     {
       "name": "Heroin",
-      "smiles": "CC(=O)OC1C=CC2C3CC4=C5C(=C(C=C4)OC(C)=O)OC1C5CCN3C2",
-      "description": "Highly addictive diacetylmorphine; severe metabolic hazard.",
+      "smiles": "CC(=O)Oc1ccc2c(c1)CCN(C2)CC3=CC=CC=C3OC(=O)C",
+      "description": "Highly addictive opioid with severe overdose risk.",
       "personalized_plan": {
         "use_case": "No approved medical use",
-        "lifestyle": ["Seek rehabilitation", "Support systems"],
-        "monitoring": ["Withdrawal symptoms", "Relapse risk"]
-      }
+        "lifestyle": ["Avoid use", "Seek rehabilitation", "Recovery programs"],
+        "monitoring": ["Addiction and health risks"]
+      },
+      "physical_score": 7.0,
+      "safety_index": 0.5
     },
     {
-      "name": "GHB",
-      "smiles": "OCCCC(=O)O",
-      "description": "Central nervous system depressant; high risk of consciousness loss.",
+      "name": "Semisynthetic Opioids (Oxycodone)",
+      "smiles": "CN1CCC23C4=CC=CC=C4O[C@H]2C=C[C@H]3[C@H]1C",
+      "description": "Opioid analgesic for moderate to severe pain.",
       "personalized_plan": {
-        "use_case": "Narcolepsy treatment (regulated)",
-        "lifestyle": ["Safe environments", "Alcohol exclusion"],
-        "monitoring": ["Consciousness levels", "Breathing"]
-      }
-    },
-    {
-      "name": "Methamphetamine",
-      "smiles": "CC(CC1=CC=CC=C1)NC",
-      "description": "Powerful CNS stimulant; extreme psychological and physical impact.",
-      "personalized_plan": {
-        "use_case": "ADHD/Obesity (strictly controlled)",
-        "lifestyle": ["Recovery routines", "Nutrition focus"],
-        "monitoring": ["Heart rate", "Mental health"]
-      }
-    },
-    {
-      "name": "Alcohol",
-      "smiles": "CCO",
-      "description": "Common psychoactive depressant; systemic toxicity with chronic use.",
-      "personalized_plan": {
-        "use_case": "Social/Medical disinfectant",
-        "lifestyle": ["Extreme moderation", "Hydration"],
-        "monitoring": ["Liver health", "Behavioral changes"]
-      }
+        "use_case": "Pain management",
+        "lifestyle": ["Use under strict prescription", "Avoid alcohol"],
+        "monitoring": ["Respiratory rate", "Dependence"],
+        "treatment": ["Fixed schedule dosing", "Slow tapering", "OIC prophylaxis", "Naloxone standby"]
+      },
+      "physical_score": 8.0,
+      "safety_index": 1.8
     }
   ]
 }

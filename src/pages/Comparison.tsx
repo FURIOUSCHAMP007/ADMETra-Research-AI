@@ -86,14 +86,27 @@ export const Comparison = () => {
                 </div>
 
                 <div className="space-y-3 pt-4 border-t border-slate-100">
-                    <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Key Structural Alerts</h4>
+                    <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Structural Alerts</h4>
                     <div className="flex flex-wrap gap-2">
-                        {m.gemini.toxicity.slice(0, 3).map((t, i) => (
+                        {m.gemini.structural_alerts.slice(0, 3).map((t, i) => (
                             <span key={i} className="px-2.5 py-1 bg-rose-50 text-rose-700 rounded-lg text-[10px] font-black border border-rose-200">
-                                {t.substring(0, 15)}...
+                                {t}
                             </span>
                         ))}
-                        {m.gemini.toxicity.length === 0 && <span className="text-[10px] text-emerald-600 font-black italic tracking-tight">No Alerts Detected</span>}
+                        {m.gemini.structural_alerts.length === 0 && <span className="text-[10px] text-emerald-600 font-black italic tracking-tight">No Structural Alerts</span>}
+                    </div>
+                </div>
+
+                <div className="space-y-3 pt-4 border-t border-slate-100">
+                    <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Inference Insights</h4>
+                    <div className="flex flex-wrap gap-2">
+                        {m.gemini.toxicity.slice(0, 2).map((t, i) => (
+                            <div key={i} className="text-[10px] font-bold text-slate-600 leading-tight flex gap-2">
+                                <ShieldAlert className="w-3 h-3 text-rose-400 shrink-0" />
+                                {t}
+                            </div>
+                        ))}
+                        {m.gemini.toxicity.length === 0 && <div className="text-[10px] text-emerald-600 font-black italic tracking-tight">Clean Toxicity Profile</div>}
                     </div>
                 </div>
 

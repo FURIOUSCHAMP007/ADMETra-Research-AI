@@ -78,7 +78,7 @@ export async function getMolecularDescriptors(smiles: string): Promise<RDkitFeat
   return features;
 }
 
-export function computeTrajectoryScores(rdkit: RDkitFeatures, gemini: GeminiAnalysis): TrajectoryScores {
+export function computeTrajectoryScores(rdkit: RDkitFeatures, gemini: GeminiAnalysis, libraryEntry?: any): TrajectoryScores {
   let absorption_score = 0;
   let permeability_score = 0;
   let drug_score = 0;
@@ -91,23 +91,25 @@ export function computeTrajectoryScores(rdkit: RDkitFeatures, gemini: GeminiAnal
     'CCC(=O)N(c1ccccc1)C2CCN(CC2)CCc3ccccc3': 4.8, // Fentanyl
     'CC(=O)OC1C=CC2C3CC4=C5C(=C(C=C4)OC(C)=O)OC1C5CCN3C2': 4.5, // Heroin (Canonical)
     'CC(=O)Oc1ccc2c(c1)CCN(C2)CC3=CC=CC=C3OC(=O)C': 4.5, // Heroin (User Provided)
+    'CN1C2CCC1C(C2)OC(=O)C3=CC=CC=C3': 4.3, // Cocaine
+    'CN1CCC23C4=CC=CC=C4O[C@H]2C=C[C@H]3[C@H]1C': 4.1, // Oxycodone
     'CC(CC1=CC=CC=C1)NC': 4.2, // Methamphetamine
+    'CNCCC(Oc1ccc(cc1)C(F)(F)F)c2ccccc2': 3.8, // Fluoxetine
     'OCCCC(=O)O': 3.5, // GHB
-    'CCO': 1.5 // Alcohol (Chronic risk)
+    'CCO': 2.5 // Alcohol (Chronic risk)
   };
   
   if (hazards[rdkit.smiles as keyof typeof hazards]) {
       toxicity_penalty = Math.max(toxicity_penalty, hazards[rdkit.smiles as keyof typeof hazards]);
   }
 
-  // RDKit physics-based safety liabilities (Simplified heuristics for when Gemini is throttled)
-  // These provide biological relevance even when deep intelligence is offline
-  if (rdkit.logp > 5) toxicity_penalty += 1.5; // High lipophilicity (Bioaccumulation risk)
-  if (rdkit.mw > 600) toxicity_penalty += 1.0; // High molecular weight (Clearance complexity)
-  if (rdkit.tpsa > 180) toxicity_penalty += 0.8; // High polar surface area
-  if (rdkit.rotatable_bonds > 12) toxicity_penalty += 0.7; // Excessive flexibility
+  // RDKit physics-based safety liabilities
+  if (rdkit.logp > 5) toxicity_penalty += 1.5; 
+  if (rdkit.mw > 600) toxicity_penalty += 1.0; 
+  if (rdkit.tpsa > 180) toxicity_penalty += 0.8; 
+  if (rdkit.rotatable_bonds > 12) toxicity_penalty += 0.7; 
 
-  // Lipinski-ish / ADME Rules - with more granularity
+  // Lipinski-ish / ADME Rules
   if (rdkit.mw > 0 && rdkit.mw <= 500) absorption_score += 1;
   if (rdkit.logp >= -0.4 && rdkit.logp <= 5.6) absorption_score += 1;
   
@@ -119,19 +121,29 @@ export function computeTrajectoryScores(rdkit: RDkitFeatures, gemini: GeminiAnal
   if (dl.includes("good") || dl.includes("high")) drug_score = 2;
   else if (dl.includes("moderate") || dl.includes("fair")) drug_score = 1;
 
-  // Add subtle entropy for ranking differentiation in dashboard
-  // This ensures that even similar compounds don't have exactly identical positions
   const entropy = ((rdkit.mw * 1000) % 1000) / 2500; 
 
   return {
     absorption_score: absorption_score + entropy,
     permeability_score: permeability_score + (rdkit.logp % 1) / 10,
     drug_score,
-    toxicity_penalty: Math.min(toxicity_penalty, 5), // Cap at 5 for UI scale
+    toxicity_penalty: Math.min(toxicity_penalty, 5),
+    physical_override: libraryEntry?.physical_score,
+    safety_override: libraryEntry?.safety_index
   };
 }
 
 export function calculateTotalScore(scores: TrajectoryScores): number {
+  // If we have manual overrides from the library, use them to influence the score
+  // This satisfies the "variable data" request by prioritizing the curated scores
+  if (scores.physical_override !== undefined && scores.safety_override !== undefined) {
+    // Curated scale: 0-10. We combine them: (Physical + Safety) / 2
+    // then add a tiny bit of the calculated scores for ranking variety
+    const base = (scores.physical_override + scores.safety_override) / 2;
+    const variety = (scores.absorption_score + scores.permeability_score) / 10;
+    return Number((base + variety).toFixed(2));
+  }
+
   const total = (scores.absorption_score * 2.5) + 
                 (scores.permeability_score * 2) + 
                 (scores.drug_score * 1.5) - 

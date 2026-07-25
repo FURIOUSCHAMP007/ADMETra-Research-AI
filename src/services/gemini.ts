@@ -13,7 +13,8 @@ export async function analyzeMolecule(smiles: string): Promise<GeminiAnalysis> {
     You are a drug discovery expert.
     Analyze the molecule with SMILES: ${smiles}
     1. Identify key functional groups.
-    2. Predict ADME behavior:
+    2. Identify specific structural alerts (reactive groups, toxicity triggers).
+    3. Predict ADME behavior:
        - absorption
        - permeability
        - metabolism stability
@@ -49,7 +50,12 @@ export async function analyzeMolecule(smiles: string): Promise<GeminiAnalysis> {
             toxicity: {
               type: Type.ARRAY,
               items: { type: Type.STRING },
-              description: "Potential toxicity risks or structural alerts"
+              description: "Potential toxicity risks"
+            },
+            structural_alerts: {
+              type: Type.ARRAY,
+              items: { type: Type.STRING },
+              description: "Specific structural alerts or toxicophores"
             },
             drug_likeness: {
               type: Type.STRING,
@@ -68,12 +74,17 @@ export async function analyzeMolecule(smiles: string): Promise<GeminiAnalysis> {
                   type: Type.ARRAY, 
                   items: { type: Type.STRING },
                   description: "Key physiological parameters or biomarkers to monitor"
+                },
+                treatment: {
+                  type: Type.ARRAY,
+                  items: { type: Type.STRING },
+                  description: "Personalized therapeutic strategies, titration guidelines, or intervention protocols"
                 }
               },
-              required: ["use_case", "lifestyle", "monitoring"]
+              required: ["use_case", "lifestyle", "monitoring", "treatment"]
             }
           },
-          required: ["functional_groups", "adme", "toxicity", "drug_likeness", "personalized_plan"]
+          required: ["functional_groups", "adme", "toxicity", "structural_alerts", "drug_likeness", "personalized_plan"]
         }
       }
     });

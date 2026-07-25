@@ -26,10 +26,9 @@ export const AnalysisProvider = ({ children }: { children: ReactNode }) => {
     
     try {
       rdkitFeatures = await getMolecularDescriptors(smiles);
-      const initialScores = computeTrajectoryScores(rdkitFeatures, { functional_groups: [], adme: { absorption: '', permeability: '', metabolism: '' }, toxicity: [], drug_likeness: 'Inconclusive', personalized_plan: { use_case: 'Pending scan...', lifestyle: [], monitoring: [] } });
-      const initialTotalScore = calculateTotalScore(initialScores);
-
       const libraryMatch = drugsData.drugs.find(d => d.name === name || d.smiles === smiles);
+      const initialScores = computeTrajectoryScores(rdkitFeatures, { functional_groups: [], adme: { absorption: '', permeability: '', metabolism: '' }, toxicity: [], structural_alerts: [], drug_likeness: 'Inconclusive', personalized_plan: { use_case: 'Pending scan...', lifestyle: [], monitoring: [], treatment: [] } }, libraryMatch);
+      const initialTotalScore = calculateTotalScore(initialScores);
       const plan = libraryMatch?.personalized_plan;
 
       setAnalyses(current => current.map(a => a.id === id ? {
@@ -41,7 +40,8 @@ export const AnalysisProvider = ({ children }: { children: ReactNode }) => {
         plan: plan ? {
           use_case: plan.use_case,
           lifestyle: plan.lifestyle,
-          monitoring: plan.monitoring
+          monitoring: plan.monitoring,
+          treatment: plan.treatment || []
         } : undefined
       } : a));
 
@@ -66,11 +66,11 @@ export const AnalysisProvider = ({ children }: { children: ReactNode }) => {
 
     try {
       const geminiAnalysis = await analyzeMolecule(smiles);
-      const finalScores = computeTrajectoryScores(rdkit, geminiAnalysis);
+      const libraryMatch = drugsData.drugs.find(d => d.name === name || d.smiles === smiles);
+      const finalScores = computeTrajectoryScores(rdkit, geminiAnalysis, libraryMatch);
       const finalTotalScore = calculateTotalScore(finalScores);
       const explanation = await explainTotalScore(smiles, finalTotalScore, geminiAnalysis);
 
-      const libraryMatch = drugsData.drugs.find(d => d.name === name || d.smiles === smiles);
       const plan = libraryMatch?.personalized_plan || geminiAnalysis.personalized_plan;
 
       setAnalyses(current => current.map(a => a.id === id ? {
@@ -83,7 +83,8 @@ export const AnalysisProvider = ({ children }: { children: ReactNode }) => {
         plan: plan ? {
           use_case: plan.use_case,
           lifestyle: plan.lifestyle,
-          monitoring: plan.monitoring
+          monitoring: plan.monitoring,
+          treatment: plan.treatment || []
         } : undefined
       } : a));
     } catch (err) {
@@ -137,7 +138,7 @@ export const AnalysisProvider = ({ children }: { children: ReactNode }) => {
         name,
         status: 'pending' as const,
         rdkit: { mw: 0, logp: 0, tpsa: 0, h_donors: 0, h_acceptors: 0, rotatable_bonds: 0 },
-        gemini: { functional_groups: [], adme: { absorption: '', permeability: '', metabolism: '' }, toxicity: [], drug_likeness: 'Inconclusive', personalized_plan: { use_case: 'Pending scan...', lifestyle: [], monitoring: [] } },
+        gemini: { functional_groups: [], adme: { absorption: '', permeability: '', metabolism: '' }, toxicity: [], structural_alerts: [], drug_likeness: 'Inconclusive', personalized_plan: { use_case: 'Pending scan...', lifestyle: [], monitoring: [], treatment: [] } },
         scores: { absorption_score: 0, permeability_score: 0, toxicity_penalty: 0, drug_score: 0 },
         totalScore: 0,
       };
@@ -180,7 +181,7 @@ export const AnalysisProvider = ({ children }: { children: ReactNode }) => {
   React.useEffect(() => {
     if (analyses.length === 0 && !isProcessing && !preloadStarted.current) {
       preloadStarted.current = true;
-      handleAnalyze('Aspirin\nParacetamol\nIbuprofen\nFentanyl\nHeroin\nMethamphetamine\nAlcohol\nGHB');
+      handleAnalyze('Paracetamol (Acetaminophen)\nIbuprofen\nAspirin (Acetylsalicylic acid)\nAmoxicillin\nMetronidazole\nIvermectin\nMebendazole\nFluconazole\nAciclovir\nSumatriptan\nPropranolol\nBenzodiazepines (Diazepam)\nLevetiracetam\nLoratadine\nPrednisolone\nActivated Charcoal\nAcetylcysteine\nAlcohol (Ethanol)\nAnticoagulants (Warfarin)\nAntidepressants (Fluoxetine)\nAntihypertensives (Amlodipine)\nBromocriptine\nClarithromycin\nClozapine\nCocaine\nColchicine\nCough Medicines (Dextromethorphan)\nDigoxin\nHeroin\nSemisynthetic Opioids (Oxycodone)');
     }
   }, []);
 

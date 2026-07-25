@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import drugsData from '../data/drugs.json';
 import { Search, Filter, Beaker } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { cn } from '../lib/utils';
 
 export const Explorer = () => {
   const [search, setSearch] = useState('');
@@ -17,22 +18,19 @@ export const Explorer = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-3xl font-black text-black tracking-tight">Dataset Explorer</h2>
-          <p className="text-slate-800 font-bold mt-1">Curated repository of 50 pharmacological agents for validation.</p>
+          <p className="text-slate-800 font-bold mt-1">Curated repository of 30 specialized pharmacological agents.</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
             <input 
               type="text" 
-              placeholder="Filter by name or category..."
+              placeholder="Search compounds..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-black focus:ring-2 focus:ring-blue-100 outline-none w-64 transition-all"
             />
           </div>
-          <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-500 hover:text-black transition-colors">
-            <Filter className="w-5 h-5" />
-          </button>
         </div>
       </div>
 
@@ -41,21 +39,36 @@ export const Explorer = () => {
           <thead>
             <tr className="bg-slate-50/50 border-b border-slate-200">
               <th className="px-8 py-5 text-sm font-black text-slate-600 uppercase tracking-widest">Molecular Agent</th>
-              <th className="px-8 py-5 text-base font-black text-slate-600 uppercase tracking-widest">SMILES Architecture</th>
-              <th className="px-8 py-5 text-xs font-black text-slate-600 uppercase tracking-widest text-right">Actions</th>
+              <th className="px-8 py-5 text-center text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Safety Index</th>
+              <th className="px-8 py-5 text-center text-[10px] font-black text-slate-500 uppercase tracking-widest whitespace-nowrap">Phys. Score</th>
+              <th className="px-8 py-5 text-base font-black text-slate-600 uppercase tracking-widest">SMILES</th>
+              <th className="px-8 py-5 text-xs font-black text-slate-600 uppercase tracking-widest text-right">Lab</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {filtered.map((drug) => (
+            {filtered.map((drug: any) => (
               <tr key={drug.name} className="hover:bg-slate-50/50 transition-colors group">
                 <td className="px-8 py-6">
                   <div className="flex flex-col">
                     <span className="text-base font-black text-black">{drug.name}</span>
-                    <span className="text-xs text-slate-700 font-bold mt-1 leading-relaxed">{drug.description}</span>
+                    <span className="text-xs text-slate-700 font-bold mt-1 leading-relaxed max-w-md">{drug.description}</span>
                   </div>
                 </td>
+                <td className="px-4 py-6 text-center">
+                  <span className={cn(
+                    "px-2 py-1 rounded-full text-[10px] font-black border",
+                    drug.safety_index > 6 ? "bg-emerald-50 text-emerald-700 border-emerald-100" : 
+                    drug.safety_index > 4 ? "bg-amber-50 text-amber-700 border-amber-100" : 
+                    "bg-rose-50 text-rose-700 border-rose-100"
+                  )}>
+                    {drug.safety_index?.toFixed(1)}/10
+                  </span>
+                </td>
+                <td className="px-4 py-6 text-center">
+                  <span className="text-slate-900 font-black text-xs">{drug.physical_score?.toFixed(1)}</span>
+                </td>
                 <td className="px-8 py-6">
-                  <code className="text-base font-mono bg-slate-100 px-2 py-1 rounded-md text-blue-800 truncate block max-w-sm border border-slate-200">
+                  <code className="text-[13px] font-mono bg-slate-100 px-2 py-1 rounded-lg text-blue-800 truncate block max-w-[200px] border border-slate-200">
                     {drug.smiles}
                   </code>
                 </td>

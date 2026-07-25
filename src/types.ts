@@ -23,6 +23,7 @@ export interface GeminiAnalysis {
   functional_groups: string[];
   adme: GeminiADME;
   toxicity: string[];
+  structural_alerts: string[];
   drug_likeness: string;
   personalized_plan: PersonalizedPlan;
 }
@@ -32,12 +33,15 @@ export interface TrajectoryScores {
   permeability_score: number;
   toxicity_penalty: number;
   drug_score: number;
+  physical_override?: number;
+  safety_override?: number;
 }
 
 export interface PersonalizedPlan {
   use_case: string;
   lifestyle: string[];
   monitoring: string[];
+  treatment: string[];
 }
 
 export interface MoleculeAnalysis {

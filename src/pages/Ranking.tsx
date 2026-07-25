@@ -30,71 +30,83 @@ export const Ranking = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Safe Candidates */}
-        <div className="bg-emerald-50/30 border border-emerald-100 rounded-[32px] p-8">
-           <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600">
+        <div className="bg-emerald-50/20 border border-emerald-100 rounded-[32px] p-8 flex flex-col h-full">
+           <div className="flex items-center gap-3 mb-8">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 shadow-sm">
                  <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-black text-emerald-800 tracking-tight">Optimal Candidates</h3>
+              <div>
+                <h3 className="text-xl font-black text-emerald-900 tracking-tight leading-none">Optimal Candidates</h3>
+                <p className="text-[10px] font-black text-emerald-500 uppercase tracking-widest mt-1">High Efficiency Leads</p>
+              </div>
            </div>
-           <div className="space-y-4">
+           <div className="space-y-4 flex-1">
               {topCandidates.slice(0, 5).map((m, idx) => (
-                <div key={m.id} className="p-5 bg-white rounded-2xl border border-emerald-100 shadow-sm flex items-center justify-between group hover:border-emerald-400 transition-all">
-                   <div className="flex items-center gap-4">
-                      <div className="text-xl font-black text-emerald-100 italic">#{idx + 1}</div>
+                <div key={m.id} className="p-5 bg-white rounded-2xl border border-emerald-100 shadow-sm flex items-center justify-between group hover:border-emerald-400 transition-all hover:shadow-md hover:-translate-y-0.5">
+                   <div className="flex items-center gap-5">
+                      <div className="text-2xl font-black text-emerald-100 italic leading-none w-8">#{idx + 1}</div>
                       <div>
-                         <div className="font-bold text-slate-800">{m.name}</div>
-                         <div className="text-[10px] uppercase font-black text-emerald-500 tracking-widest leading-none">Efficiency: {m.totalScore.toFixed(1)}</div>
+                         <div className="font-black text-slate-900 group-hover:text-emerald-700 transition-colors">{m.name}</div>
+                         <div className="text-[10px] uppercase font-black text-emerald-500 tracking-widest leading-none mt-1">Efficiency: {m.totalScore.toFixed(1)}</div>
                       </div>
                    </div>
                    <button 
                     onClick={() => { setSelectedId(m.id); navigate('/analysis'); }}
-                    className="p-2 rounded-xl bg-slate-50 text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-all"
+                    className="p-2.5 rounded-xl bg-slate-50 text-slate-400 group-hover:bg-emerald-50 group-hover:text-emerald-600 transition-all"
                    >
                       <ArrowRight className="w-4 h-4" />
                    </button>
                 </div>
               ))}
               {topCandidates.length === 0 && (
-                <div className="py-12 text-center text-emerald-400 font-medium italic text-sm">
-                   Awaiting optimization results...
+                <div className="py-20 text-center">
+                   <div className="text-emerald-300 font-black text-xs uppercase tracking-widest animate-pulse">Awaiting Optimization results</div>
+                   <p className="text-[10px] text-emerald-400 font-medium mt-1">Run discovery module to populate candidates.</p>
                 </div>
               )}
            </div>
         </div>
 
         {/* Risky Candidates */}
-        <div className="bg-rose-50/30 border border-rose-100 rounded-[32px] p-8">
-           <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-2xl bg-rose-100 flex items-center justify-center text-rose-600">
+        <div className="bg-rose-50/20 border border-rose-100 rounded-[32px] p-8 flex flex-col h-full">
+           <div className="flex items-center gap-3 mb-8">
+              <div className="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center text-rose-600 shadow-sm">
                  <AlertCircle className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-black text-rose-800 tracking-tight">Highest Toxicity Hazards</h3>
+              <div>
+                <h3 className="text-xl font-black text-rose-900 tracking-tight leading-none">Highest Toxicity Hazards</h3>
+                <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest mt-1">Structural Liability Alerts</p>
+              </div>
            </div>
-           <div className="space-y-4">
-              {riskyCompounds.slice(0, 5).map((m) => (
-                <div key={m.id} className="p-5 bg-white rounded-2xl border border-rose-100 shadow-sm flex items-center justify-between group hover:border-rose-400 transition-all">
-                   <div className="flex items-center gap-4">
-                      <div className={cn(
-                        "w-2 h-2 rounded-full animate-pulse",
-                        m.scores.toxicity_penalty > 3 ? "bg-rose-600 scale-150" : "bg-rose-400"
-                      )} />
+           <div className="space-y-4 flex-1">
+              {riskyCompounds.slice(0, 5).map((m, idx) => (
+                <div key={m.id} className="p-5 bg-white rounded-2xl border border-rose-100 shadow-sm flex items-center justify-between group hover:border-rose-400 transition-all hover:shadow-md hover:-translate-y-0.5">
+                   <div className="flex items-center gap-5">
+                      <div className="text-2xl font-black text-rose-100 italic leading-none w-8">#{idx + 1}</div>
                       <div>
-                         <div className="font-bold text-slate-800">{m.name}</div>
-                         <div className="text-[10px] uppercase font-black text-rose-600 tracking-widest leading-none">Hazard Index: {m.scores.toxicity_penalty.toFixed(1)}/5.0</div>
+                         <div className="font-black text-slate-900 group-hover:text-rose-700 transition-colors">{m.name}</div>
+                         <div className="flex items-center gap-2 mt-1">
+                            <span className="text-[10px] uppercase font-black text-rose-600 tracking-widest leading-none">Hazard Index: {m.scores.toxicity_penalty.toFixed(1)}/5.0</span>
+                            {m.gemini.structural_alerts.length > 0 && (
+                               <span className="text-[8px] bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded-md font-black uppercase tracking-tighter">
+                                  {m.gemini.structural_alerts.length} Struct Alerts
+                               </span>
+                            )}
+                         </div>
                       </div>
                    </div>
                    <button 
                     onClick={() => { setSelectedId(m.id); navigate('/analysis'); }}
-                    className="p-2 rounded-xl bg-slate-50 text-slate-400 group-hover:bg-rose-50 group-hover:text-rose-600 transition-all"
+                    className="p-2.5 rounded-xl bg-slate-50 text-slate-400 group-hover:bg-rose-50 group-hover:text-rose-600 transition-all"
                    >
                       <ArrowRight className="w-4 h-4" />
                    </button>
                 </div>
               ))}
                {riskyCompounds.length === 0 && (
-                <div className="py-12 text-center text-rose-400 font-medium italic text-sm">
-                  System scanning for safety liabilities...
+                <div className="py-20 text-center">
+                   <div className="text-rose-300 font-black text-xs uppercase tracking-widest animate-pulse">Scanning safety liabilities</div>
+                   <p className="text-[10px] text-rose-400 font-medium mt-1">Comprehensive drug-likeness scan in progress.</p>
                 </div>
               )}
            </div>
