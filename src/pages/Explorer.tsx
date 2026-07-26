@@ -10,7 +10,8 @@ export const Explorer = () => {
 
   const filtered = drugsData.drugs.filter(d => 
     d.name.toLowerCase().includes(search.toLowerCase()) || 
-    d.description.toLowerCase().includes(search.toLowerCase())
+    d.description.toLowerCase().includes(search.toLowerCase()) ||
+    d.smiles.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
